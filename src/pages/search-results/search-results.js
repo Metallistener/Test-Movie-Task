@@ -65,6 +65,7 @@ class SearchResults extends Component {
     getMovies(params) {
         searchMovies(params)
         .then((response) => {
+            console.log(response);
             this.props.found_movies(response.data);
         })
         .catch((error) => {
@@ -186,17 +187,19 @@ class SearchResults extends Component {
                                         <h3>Ничего не найдено</h3>
                                     </div>
                         }
-                        {
-                            Object.keys(this.props.found_movies_data).length > 0 ? <Pagination
-                                activePage={this.props.found_movies_data.active_page}
-                                itemsCountPerPage={20}
-                                activeLinkClass="active_page"
-                                linkClass="page_link"
-                                totalItemsCount={1000}
-                                pageRangeDisplayed={5}
-                                onChange={this.handlePageChange}
-                            /> : null
-                        }
+                        <div className="results__pagination-box">
+                            {
+                                Object.keys(this.props.found_movies_data).length > 0 ? <Pagination
+                                    activePage={this.props.found_movies_data.active_page}
+                                    itemsCountPerPage={20}
+                                    activeLinkClass="active_page"
+                                    linkClass="page_link"
+                                    totalItemsCount={this.props.found_movies_data.totalResults < 1000 ? this.props.found_movies_data.totalResults : 1000}
+                                    pageRangeDisplayed={5}
+                                    onChange={this.handlePageChange}
+                                /> : null
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

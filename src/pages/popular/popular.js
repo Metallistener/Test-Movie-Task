@@ -77,11 +77,6 @@ class Popular extends Component {
         getMovies(params)
         .then((response) => {
             this.props.popular_movies(response.data);
-            this.setState({
-                activePage: response.data.page,
-                movies: response.data.results,
-                totalResults: response.data.total_results
-            });
         })
         .catch((error) => {
             console.log(error.response);
@@ -139,39 +134,40 @@ class Popular extends Component {
                             />
                             Популярные фильмы
                         </h1>
-                        {
-                            this.props.found_movies_data.data.map((movie, index) => {
-                                return (
-                                    <div key={index} className="popular__movie movie">
-                                        <a className="movie__link" onClick={() => this.props.history.push({
-                                            pathname: '/detailed/' + movie.id
-                                        })}>
-                                            <div className="movie__poster-box">
-                                                <img className="movie__poster" src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} />
-                                            </div>
-                                            <h4 className="movie__title">{movie.title}</h4>
-                                            <div className="movie__genres-box">
-                                                <strong className="movie__genre-title">Жанр:</strong> 
-                                                {
-                                                    this.setGenre(movie.genre_ids).map((genre, index) => {
-                                                        return (
-                                                            <span key={index} className="movie__genre-name">{genre},</span>
-                                                        )
-                                                    })
-                                                }
-                                            </div>
-                                        </a>
-                                    </div>
-                                )
-                            })
+                        {   
+                            Object.keys(this.props.popular_movies_data).length > 0 ?
+                                this.props.popular_movies_data.data.map((movie, index) => {
+                                    return (
+                                        <div key={index} className="popular__movie movie">
+                                            <a className="movie__link" onClick={() => this.props.history.push({
+                                                pathname: '/detailed/' + movie.id
+                                            })}>
+                                                <div className="movie__poster-box">
+                                                    <img className="movie__poster" src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} />
+                                                </div>
+                                                <h4 className="movie__title">{movie.title}</h4>
+                                                <div className="movie__genres-box">
+                                                    <strong className="movie__genre-title">Жанр:</strong> 
+                                                    {
+                                                        this.setGenre(movie.genre_ids).map((genre, index) => {
+                                                            return (
+                                                                <span key={index} className="movie__genre-name">{genre},</span>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </a>
+                                        </div>
+                                    )
+                                }) : null
                         }
                         {
-                            this.props.found_movies_data.data ? <Pagination
-                                activePage={this.props.found_movies_data.active_page}
+                            this.props.popular_movies_data.data ? <Pagination
+                                activePage={this.props.popular_movies_data.active_page}
                                 itemsCountPerPage={20}
                                 activeLinkClass="active_page"
                                 linkClass="page_link"
-                                totalItemsCount={1000}
+                                totalItemsCount={this.props.popular_movies_data.totalResults < 1000 ? this.props.popular_movies_data.totalResults : 1000}
                                 pageRangeDisplayed={5}
                                 onChange={this.handlePageChange}
                             /> : null

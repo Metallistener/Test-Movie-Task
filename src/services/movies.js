@@ -28,6 +28,8 @@ export function getMovies(params) {
             URL += filter_name;
         }
     }    
+
+    console.log('URL ' + URL);
     
     return axios.get(
         URL
@@ -43,6 +45,8 @@ export function searchMovies(params) {
             URL += '&page=' + params.page;
         }
     }
+
+    console.log(URL);
 
     return axios.get(
         URL
