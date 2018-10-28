@@ -2,6 +2,20 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+var connect = require("react-redux").connect;
+
+function mapStateToProps(state) {
+  return {
+    
+  };
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+      
+  }
+}
+
 class App extends Component {
   render() {
     return (
@@ -25,4 +39,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

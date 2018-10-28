@@ -1,0 +1,36 @@
+.search {
+    margin-bottom: 20px;
+}
+.search__form {
+    display: table;
+    border-spacing: 0px 0px;
+    width: 100%;
+}
+.search__field-box {
+    display: table-cell;
+    width: 100%;
+    vertical-align: top;
+}
+.search__field {
+    width: 100%;
+    height: 45px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #f39062;
+    padding: 0 15px;
+    outline: none;
+    font-size: 14px;
+}
+.search__button-box {
+    display: table-cell;
+    vertical-align: top;
+    position: relative;
+    left: -1px;
+}
+.search__button {
+    height: 45px;
+    background: #f39062;
+    color: #ffffff;
+    border: 1px solid #f39062;
+    border-radius: 0 5px 5px 0;
+    width: 70px;
+}

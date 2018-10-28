@@ -1,0 +1,70 @@
+.navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    max-width: 250px;
+    width: 100%;
+    display: table;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 0 0 15px 0px rgba(0,0,0,0.1);
+    border-radius: 0 10px 10px 0;
+    border-spacing: 0px 0px;
+}
+.navigation__list {
+    display: table-cell;
+    vertical-align: middle;
+}
+.navigation__item {
+    list-style-type: none;
+    margin: 10px 0;
+}
+.navigation__link-name {
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #f5905b;
+}
+.navigation__link {
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid #efefef;
+    border-top: 1px solid #efefef;
+    transition: 300ms;
+    cursor: pointer;
+    position: relative;
+}
+.navigation__link::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    width: 0%;
+    background: #f5905b;
+}
+.navigation__link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    width: 0%;
+    background: #f5905b;
+}
+.navigation__link:hover::before,
+.navigation__link:hover::after,
+.navigation__activeLink .navigation__link::before,
+.navigation__activeLink .navigation__link::after {
+    animation: hoverLink 400ms;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards;
+}
+
+@keyframes hoverLink {
+    from {width: 0%}
+    to {width: 100%}
+}

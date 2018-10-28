@@ -1,0 +1,113 @@
+.detailed {
+    padding: 20px;
+    padding-left: 270px;
+    border-spacing: 15px 0px;
+}
+.detailed__main-box {
+    display: table;
+    table-layout: fixed;
+}
+.detailed__main {
+    box-shadow: 0 0 15px 0px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    display: table-cell;
+}
+.detailed__title {
+    text-align: right;
+    margin-bottom: 0;
+    font-weight: 300;
+    margin-top: 0;
+    padding: 20px;
+    padding-left: 70px;
+    position: relative;
+    color: #545454;
+    width: 100%;
+    border-bottom: 1px solid #efefef;
+}
+
+
+.description {
+    width: 100%;
+    padding: 20px;
+}
+.description__poster-box {
+    max-width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
+.description__poster {
+    width: 100%;
+}
+.description__info {
+    display: inline-block;
+    width: 70%;
+    vertical-align: top;
+    padding-left: 20px;
+}
+.description__genre-name {
+    margin: 0 2px;
+    display: inline-block;
+}
+.description__tagline {
+    font-weight: 300;
+}
+.description__box {
+    margin-bottom: 10px;
+}
+
+.same {
+    display: table-cell;
+    width: 320px;
+    box-shadow: 0 0 15px 0px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+.same__title {
+    text-align: right;
+    margin-bottom: 0;
+    font-weight: 300;
+    margin-top: 0;
+    padding: 20px;
+    position: relative;
+    color: #545454;
+    width: 100%;
+    border-bottom: 1px solid #efefef;
+}
+
+.same__movies {
+    padding: 10px;
+}
+
+.same__movie {
+    margin-bottom: 10px;
+}
+.same__movie:hover {
+    cursor: pointer;
+    margin-bottom: 10px;
+    box-shadow: inset 0 0 60px -20px rgba(243, 144, 98, 1);
+}
+.same__movie:last-child {
+    margin-bottom: 0;
+}
+.same__movie-poster-box {
+    width: 120px;
+}
+.same__movie-poster-box {
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+}
+.same__movie-desc {
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    width: 60%;
+}
+.same__movie-title {
+    margin-top: 0;
+}
+.same__movie-oster {
+    width: 100%;
+}
+.same__movie-box {
+    margin-bottom: 10px;
+}
