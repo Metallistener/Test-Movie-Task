@@ -6,7 +6,7 @@ import { searchMovies, getGenres } from '../../services/http/movies';
 import { FontAwesome } from 'react-web-vector-icons';
 import Pagination from "react-js-pagination";
 import { set_found_movies } from '../../actions/search-results';
-import { set_genres } from '../../actions/genres';
+import { load_genres } from '../../actions/genres';
 
 var connect = require("react-redux").connect;
 
@@ -204,7 +204,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         found_movies: data => dispatch(set_found_movies(data)),
-        genres: data => dispatch(set_genres(data))
+        genres: data => dispatch(load_genres(data))
     }
 }
 

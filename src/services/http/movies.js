@@ -6,26 +6,8 @@ export function getMovies(params) {
     let url = 'https://api.themoviedb.org/3/movie/popular?api_key=' + API_KEY;
 
     if (params) {
-        if (params.sort_by) {
-            url += '&sort_by=' + params.sort_by;
-        }
-
         if (params.page) {
             url += '&page=' + params.page;
-        }
-
-        if (params.with_genres) {
-            let filter_name = '&with_genres=';
-
-            for (let i = 0; i < params.with_genres.length; i++) {
-                if (i !== (params.with_genres.length - 1)) {
-                    filter_name += params.with_genres[i].id + ',';
-                } else {
-                    filter_name += params.with_genres[i].id;
-                }
-            }
-
-            url += filter_name;
         }
     }    
     
@@ -37,9 +19,7 @@ export function getMovies(params) {
 export function getRecommendationMovies(params) {
     let url = 'https://api.themoviedb.org/3/movie/' + params.id_movie + '/recommendations?api_key=' + API_KEY;
 
-    console.log(url);
-
-    return axios.get(
+    return axios.get(   
         url
     )
 }
@@ -60,8 +40,8 @@ export function searchMovies(params) {
 }
 
 // получает 1 фильм который равен передаваемому ID
-export function getMovie(id_movie) {
-    let url = 'https://api.themoviedb.org/3/movie/' + id_movie + '?api_key=' + API_KEY;
+export function getMovie(params) {
+    let url = 'https://api.themoviedb.org/3/movie/' + params.id_movie + '?api_key=' + API_KEY;
 
     return axios.get(
         url

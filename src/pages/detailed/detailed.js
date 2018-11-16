@@ -4,8 +4,8 @@ import Navigation from '../../components/navigation/navigation';
 import './detailed.css';
 import { FontAwesome } from 'react-web-vector-icons';
 import Search from '../../components/search/search';
-import { set_detailed_movie, set_recommended_movies } from '../../actions/detailed';
-import { set_genres } from '../../actions/genres';
+import { load_movie_details, load_recommended_movies } from '../../actions/detailed';
+import { load_genres } from '../../actions/genres';
 
 var connect = require("react-redux").connect;
 
@@ -14,9 +14,12 @@ class Detailed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id_movie: null,
-            same_movies: []
+            id_movie: null
         }
+
+        this.renderRecommendedMovies = this.renderRecommendedMovies.bind(this);
+        this.setGenre = this.setGenre.bind(this);
+        this.selectMovie = this.selectMovie.bind(this);
     }
 
     componentWillMount() {
@@ -24,52 +27,32 @@ class Detailed extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.detailed_movie_data !== this.props.detailed_movie_data) {
-            const params = {
-                id_movie: this.state.id_movie
-            };
-
-            this.getMovies(params);
-        }
-
         if (nextProps.recommended_movies_data !== this.props.recommended_movies_data) {
-            this.renderrecommendedMovies();
+            console.log(nextProps.recommended_movies_data);
+            console.log('alo');
+            this.renderRecommendedMovies();
         }
     }
 
     // получаем список всех жанров
     getGenres() {
-        getGenres()
-        .then((response) => {
-            this.props.genres(response.data.genres);
-            this.getMovie();
-        })
-        .catch((error) => {
-            console.log(error.response);
-        });
+        this.props.LoadGenres();
     }
 
-    // получаем список популярных фильмов
-    getMovies(params) {
-        getRecommendationMovies(params)
-        .then((response) => {
-            console.log(response.data);
-            this.props.recommended_movies(response.data.results);
-        })
-        .catch((error) => {
-            console.log(error.response);
-        });
+    // получаем список рекомендуемых фильмов
+    getMovies() {
+        const params = {
+            id_movie: this.state.id_movie
+        }
+        this.props.LoadRecommendedMovies(params)
     }
 
     // получаем нужны нам фильм по ID
     getMovie() {
-        getMovie(this.state.id_movie)
-        .then((response) => {
-            this.props.detailed_movie(response.data);    
-        })
-        .catch((error) => {
-            console.log(error.response);
-        });
+        const params = {
+            id_movie: this.state.id_movie
+        }
+        this.props.LoadMovieDetails(params)
     }
 
     // получаем ID фильма из props
@@ -77,7 +60,9 @@ class Detailed extends Component {
         this.setState({
             id_movie: this.props.match.params.id
         }, () => {
+            this.getMovie();
             this.getGenres();
+            this.getMovies();
         });
     }
 
@@ -97,7 +82,7 @@ class Detailed extends Component {
         return genres_name;
     }
     
-    changeLink(id) {
+    selectMovie(id) {
         window.scrollTo(0,0);
         this.props.history.replace({
             pathname: '/detailed/' + id
@@ -107,6 +92,7 @@ class Detailed extends Component {
             id_movie: id
         }, () => {
             this.getMovie();
+            this.getMovies();
         })
     }
 
@@ -116,11 +102,11 @@ class Detailed extends Component {
         })
     }
 
-    renderrecommendedMovies() {
+    renderRecommendedMovies() {
         return (
             this.props.recommended_movies_data.map((movie, index) => {
                 return (
-                    <div key={index} onClick={() => this.changeLink(movie.id)} className="recommended__movie">
+                    <div key={index} onClick={() => this.selectMovie(movie.id)} className="recommended__movie">
                         <div className="recommended__movie-poster-box">
                             <img src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} className="recommended__movie-oster" />
                         </div>
@@ -166,21 +152,21 @@ class Detailed extends Component {
                         </div>
                         <div className="detailed__description description">
                             <div className="description__poster-box">
-                                <img src={'https://image.tmdb.org/t/p/w500' + this.props.detailed_movie_data.poster_path} className="description__poster" />
+                                <img src={'https://image.tmdb.org/t/p/w500' + this.props.movie_details_data.poster_path} className="description__poster" />
                             </div>
                             <div className="description__info">
-                                <h2 className="description__title">{this.props.detailed_movie_data.title}</h2>
-                                <h4 className="description__tagline">{this.props.detailed_movie_data.tagline}</h4>
+                                <h2 className="description__title">{this.props.movie_details_data.title}</h2>
+                                <h4 className="description__tagline">{this.props.movie_details_data.tagline}</h4>
                                 <div className="description__box">
                                     <strong className="description__overview-title">Сюжет:</strong>  
                                     
-                                        <span className="description__overview">{this.props.detailed_movie_data.overview}</span>
+                                        <span className="description__overview">{this.props.movie_details_data.overview}</span>
                                 </div>
                                 <div className="description__box">
                                     <strong className="description__genre-title">Жанр:</strong>  
                                     {
-                                        Object.keys(this.props.detailed_movie_data).length > 0 ?
-                                        this.props.detailed_movie_data.genres.map((genre, index) => {
+                                        Object.keys(this.props.movie_details_data).length > 0 ?
+                                        this.props.movie_details_data.genres.map((genre, index) => {
                                             return (
                                                 <span key={index} className="description__genre-name"> {genre.name},</span>
                                             )
@@ -190,8 +176,8 @@ class Detailed extends Component {
                                 <div className="description__box">
                                     <strong className="description__country-title">Страна:</strong>  
                                     {
-                                        Object.keys(this.props.detailed_movie_data).length > 0 ?
-                                        this.props.detailed_movie_data.production_countries.map((country, index) => {
+                                        Object.keys(this.props.movie_details_data).length > 0 ?
+                                        this.props.movie_details_data.production_countries.map((country, index) => {
                                             return (
                                                 <span key={index} className="description__genre-name">{country.name},</span>
                                             )
@@ -218,7 +204,7 @@ class Detailed extends Component {
                         </div>
                         <div className="recommended__movies">
                             {
-                                this.renderrecommendedMovies() 
+                                this.renderRecommendedMovies() 
                             }
                         </div>
                     </div>
@@ -230,19 +216,18 @@ class Detailed extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
-        detailed_movie_data: state.detailed_movie,
-        genres_data: state.genres,
-        recommended_movies_data: state.recommended_movies
+        movie_details_data: state.load_movie_details,
+        genres_data: state.load_genres,
+        recommended_movies_data: state.load_recommended_movies
     };
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        detailed_movie: data => dispatch(set_detailed_movie(data)),
-        genres: data => dispatch(set_genres(data)),
-        recommended_movies: data => dispatch(set_recommended_movies(data))
+        LoadMovieDetails: (params) => dispatch(load_movie_details(params)),
+        LoadGenres: () => dispatch(load_genres()),
+        LoadRecommendedMovies: (params) => dispatch(load_recommended_movies(params))
     }
 }
 

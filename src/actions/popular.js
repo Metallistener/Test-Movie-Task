@@ -1,5 +1,6 @@
-export const load_popular_movies = () => ({
-  type: 'LOAD_POPULAR_MOVIES'
+export const load_popular_movies = (params) => ({
+  type: 'LOAD_POPULAR_MOVIES',
+  params
 });
 
 export const loading_popular_music_success = payload => ({ 

@@ -1,15 +1,16 @@
-export const detailed_movie = (state = {}, action) => {
+export const load_movie_details = (state = {}, action) => {
     switch (action.type) {
-      case 'SET_DETAILED_MOVIE':
-        return action.data
+      case 'LOAD_MOVIE_DETAILS_SUCCESS':
+        return action.payload
     }
+
     return state;
 }
 
-export const recommended_movies = (state = [], action) => {
+export const load_recommended_movies = (state = [], action) => {
     switch (action.type) {
-      case 'SET_RECOMMENDED_MOVIES':
-        return action.data
+      case 'LOAD_RECOMMENDED_MOVIES_SUCCESS':
+        return action.payload
     }
     return state;
 }
