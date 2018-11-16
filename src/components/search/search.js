@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import styles from './search.css';
-import Icon, { FontAwesome, Feather } from 'react-web-vector-icons';
+import './search.css';
+import { FontAwesome } from 'react-web-vector-icons';
 
 class Search extends Component {
 
@@ -34,7 +34,7 @@ class Search extends Component {
                             value={this.state.value} 
                             onChange={this.handleChange}
                             className="search__field" 
-                            placeholder="Искать фильмы по названию" 
+                            placeholder="Search movie" 
                         />
                     </div>
                     <div className="search__button-box">

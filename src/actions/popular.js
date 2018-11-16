@@ -1,9 +1,8 @@
-export const set_popular_movies = data => ({
-  type: 'SET_POPULAR_MOVIES',
-  data
+export const load_popular_movies = () => ({
+  type: 'LOAD_POPULAR_MOVIES'
 });
 
-export const set_popular_movies_error = error => ({
-  type: 'SET_POPULAR_MOVIES_ERROR',
-  error
+export const loading_popular_music_success = payload => ({ 
+  type: 'LOAD_POPULAR_MOVIE_SUCCESS', 
+  payload 
 });

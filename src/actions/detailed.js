@@ -3,8 +3,8 @@ export const set_detailed_movie = data => ({
     data
 });
 
-export const set_same_movies = data => ({
-    type: 'SET_SAME_MOVIES',
+export const set_recommended_movies = data => ({
+    type: 'SET_RECOMMENDED_MOVIES',
     data
 });
 

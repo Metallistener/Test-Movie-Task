@@ -1,30 +1,14 @@
 import React, { Component } from 'react';
-import styles from './popular.css';
-import { getMovies, getGenres } from '../../services/movies';
-import Icon, { FontAwesome, Feather } from 'react-web-vector-icons';
+import './popular.css';
+import { getMovies, getGenres } from '../../services/http/movies';
+import { FontAwesome } from 'react-web-vector-icons';
 import Pagination from "react-js-pagination";
 import Navigation from '../../components/navigation/navigation';
 import Search from '../../components/search/search';
-import { set_popular_movies, set_popular_movies_error } from '../../actions/popular';
+import { load_popular_movies } from '../../actions/popular';
 import { set_genres } from '../../actions/genres';
 
 var connect = require("react-redux").connect;
-
-function mapStateToProps(state) {
-    return {
-        popular_movies_data: state.popular_movies,
-        popular_movies_error_data: state.popular_movies_error,
-        genres_data: state.genres
-    };
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        popular_movies: data => dispatch(set_popular_movies(data)),
-        popular_movies_error: data => dispatch(set_popular_movies_error(data)),
-        genres: data => dispatch(set_genres(data))
-    }
-}
 
 class Popular extends Component {
 
@@ -74,14 +58,14 @@ class Popular extends Component {
 
     // получаем список популярных фильмов
     getMovies(params) {
-        getMovies(params)
-        .then((response) => {
-            this.props.popular_movies(response.data);
-        })
-        .catch((error) => {
-            console.log(error.response);
-            this.props.popular_movies_error(error.response.data);
-        });
+        this.props.LoadPopularMovies();
+        // getMovies(params)
+        // .then((response) => {
+        //     this.props.LoadPopularMovies(response.data);
+        // })
+        // .catch((error) => {
+        //     console.log(error.response);
+        // });
     }
 
     // слушает изменение номера страницы пагинации
@@ -132,7 +116,7 @@ class Popular extends Component {
                                     left: 20
                                 }}
                             />
-                            Популярные фильмы
+                            Popular movies
                         </h1>
                         {   
                             Object.keys(this.props.popular_movies_data).length > 0 ?
@@ -180,6 +164,19 @@ class Popular extends Component {
 
 }
 
+function mapStateToProps(state) {
+    console.log(state);
+    return {
+        popular_movies_data: state.load_popular_movies,
+        genres_data: state.genres
+    };
+}
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        LoadPopularMovies: () => dispatch(load_popular_movies()),
+        genres: data => dispatch(set_genres(data))
+    }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Popular);

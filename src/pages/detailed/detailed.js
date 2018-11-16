@@ -1,29 +1,13 @@
 import React, { Component } from 'react';
-import { getMovie, getMovies, getGenres } from '../../services/movies';
+import { getMovie, getRecommendationMovies, getGenres } from '../../services/http/movies';
 import Navigation from '../../components/navigation/navigation';
-import styles from './detailed.css';
-import Icon, { FontAwesome, Feather } from 'react-web-vector-icons';
+import './detailed.css';
+import { FontAwesome } from 'react-web-vector-icons';
 import Search from '../../components/search/search';
-import { set_detailed_movie, set_same_movies } from '../../actions/detailed';
+import { set_detailed_movie, set_recommended_movies } from '../../actions/detailed';
 import { set_genres } from '../../actions/genres';
 
 var connect = require("react-redux").connect;
-
-function mapStateToProps(state) {
-    return {
-        detailed_movie_data: state.detailed_movie,
-        genres_data: state.genres,
-        same_movies_data: state.same_movies
-    };
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        detailed_movie: data => dispatch(set_detailed_movie(data)),
-        genres: data => dispatch(set_genres(data)),
-        same_movies: data => dispatch(set_same_movies(data))
-    }
-}
 
 class Detailed extends Component {
 
@@ -42,15 +26,14 @@ class Detailed extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.detailed_movie_data !== this.props.detailed_movie_data) {
             const params = {
-                with_genres: nextProps.detailed_movie_data.genres,
-                sort_by: 'popularity.desc'
+                id_movie: this.state.id_movie
             };
 
             this.getMovies(params);
         }
 
-        if (nextProps.same_movies_data !== this.props.same_movies_data) {
-            this.renderSameMovies();
+        if (nextProps.recommended_movies_data !== this.props.recommended_movies_data) {
+            this.renderrecommendedMovies();
         }
     }
 
@@ -68,10 +51,10 @@ class Detailed extends Component {
 
     // получаем список популярных фильмов
     getMovies(params) {
-        getMovies(params)
+        getRecommendationMovies(params)
         .then((response) => {
             console.log(response.data);
-            this.props.same_movies(response.data.results);
+            this.props.recommended_movies(response.data.results);
         })
         .catch((error) => {
             console.log(error.response);
@@ -133,22 +116,22 @@ class Detailed extends Component {
         })
     }
 
-    renderSameMovies() {
+    renderrecommendedMovies() {
         return (
-            this.props.same_movies_data.map((movie, index) => {
+            this.props.recommended_movies_data.map((movie, index) => {
                 return (
-                    <div key={index} onClick={() => this.changeLink(movie.id)} className="same__movie">
-                        <div className="same__movie-poster-box">
-                            <img src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} className="same__movie-oster" />
+                    <div key={index} onClick={() => this.changeLink(movie.id)} className="recommended__movie">
+                        <div className="recommended__movie-poster-box">
+                            <img src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} className="recommended__movie-oster" />
                         </div>
-                        <div className="same__movie-desc">
-                            <h3 className="same__movie-title">{movie.title}</h3>
-                            <div className="same__movie-box">
-                                <strong className="same__movie-genre-title">Жанр:</strong>  
+                        <div className="recommended__movie-desc">
+                            <h3 className="recommended__movie-title">{movie.title}</h3>
+                            <div className="recommended__movie-box">
+                                <strong className="recommended__movie-genre-title">Жанр:</strong>  
                                 {
                                     this.setGenre(movie.genre_ids).map((genre, index) => {
                                         return (
-                                            <span key={index} className="same__movie-genre-name"> {genre},</span>
+                                            <span key={index} className="recommended__movie-genre-name"> {genre},</span>
                                         )
                                     })
                                 }
@@ -178,7 +161,7 @@ class Detailed extends Component {
                                         left: 20
                                     }}
                                 />
-                                Детальная информация
+                                Detailed information
                             </h1>
                         </div>
                         <div className="detailed__description description">
@@ -218,9 +201,9 @@ class Detailed extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="detailed__same same">
-                        <div className="same__head">
-                            <h3 className="same__title">
+                    <div className="detailed__recommended recommended">
+                        <div className="recommended__head">
+                            <h3 className="recommended__title">
                                 <FontAwesome
                                     name='film'
                                     color='#f39061'
@@ -230,12 +213,12 @@ class Detailed extends Component {
                                         left: 20
                                     }}
                                 />
-                                Похожие фильмы
+                                Recommended
                             </h3>
                         </div>
-                        <div className="same__movies">
+                        <div className="recommended__movies">
                             {
-                                this.renderSameMovies() 
+                                this.renderrecommendedMovies() 
                             }
                         </div>
                     </div>
@@ -244,6 +227,23 @@ class Detailed extends Component {
         )
     }
 
+}
+
+function mapStateToProps(state) {
+    console.log(state);
+    return {
+        detailed_movie_data: state.detailed_movie,
+        genres_data: state.genres,
+        recommended_movies_data: state.recommended_movies
+    };
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        detailed_movie: data => dispatch(set_detailed_movie(data)),
+        genres: data => dispatch(set_genres(data)),
+        recommended_movies: data => dispatch(set_recommended_movies(data))
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detailed);

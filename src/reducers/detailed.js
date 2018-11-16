@@ -6,9 +6,9 @@ export const detailed_movie = (state = {}, action) => {
     return state;
 }
 
-export const same_movies = (state = [], action) => {
+export const recommended_movies = (state = [], action) => {
     switch (action.type) {
-      case 'SET_SAME_MOVIES':
+      case 'SET_RECOMMENDED_MOVIES':
         return action.data
     }
     return state;

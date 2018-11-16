@@ -1,28 +1,14 @@
 import React, { Component } from 'react';
-import styles from './search-results.css';
+import './search-results.css';
 import Navigation from '../../components/navigation/navigation';
 import Search from '../../components/search/search';
-import { searchMovies, getGenres } from '../../services/movies';
-import Icon, { FontAwesome, Feather } from 'react-web-vector-icons';
+import { searchMovies, getGenres } from '../../services/http/movies';
+import { FontAwesome } from 'react-web-vector-icons';
 import Pagination from "react-js-pagination";
 import { set_found_movies } from '../../actions/search-results';
 import { set_genres } from '../../actions/genres';
 
 var connect = require("react-redux").connect;
-
-function mapStateToProps(state) {
-    return {
-        found_movies_data: state.found_movies,
-        genres_data: state.genres
-    };
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        found_movies: data => dispatch(set_found_movies(data)),
-        genres: data => dispatch(set_genres(data))
-    }
-}
 
 class SearchResults extends Component {
 
@@ -206,6 +192,20 @@ class SearchResults extends Component {
         )
     }
 
+}
+
+function mapStateToProps(state) {
+    return {
+        found_movies_data: state.found_movies,
+        genres_data: state.genres
+    };
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        found_movies: data => dispatch(set_found_movies(data)),
+        genres: data => dispatch(set_genres(data))
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

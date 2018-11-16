@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Icon, { FontAwesome, Feather } from 'react-web-vector-icons';
-import styles from './navigation.css';
+import { FontAwesome } from 'react-web-vector-icons';
+import './navigation.css';
 import { NavLink } from 'react-router-dom'
 
 
@@ -28,7 +28,7 @@ class Navigation extends Component {
                                         verticalAlign: 'middle'
                                     }}
                                 />
-                                <span className="navigation__link-name">Главная страница</span>
+                                <span className="navigation__link-name">Home</span>
                             </div>
                         </NavLink>
                     </li>

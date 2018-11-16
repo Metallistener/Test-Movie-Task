@@ -55,13 +55,13 @@
     margin-bottom: 10px;
 }
 
-.same {
+.recommended {
     display: table-cell;
     width: 320px;
     box-shadow: 0 0 15px 0px rgba(0,0,0,0.1);
     border-radius: 5px;
 }
-.same__title {
+.recommended__title {
     text-align: right;
     margin-bottom: 0;
     font-weight: 300;
@@ -73,41 +73,41 @@
     border-bottom: 1px solid #efefef;
 }
 
-.same__movies {
+.recommended__movies {
     padding: 10px;
 }
 
-.same__movie {
+.recommended__movie {
     margin-bottom: 10px;
 }
-.same__movie:hover {
+.recommended__movie:hover {
     cursor: pointer;
     margin-bottom: 10px;
     box-shadow: inset 0 0 60px -20px rgba(243, 144, 98, 1);
 }
-.same__movie:last-child {
+.recommended__movie:last-child {
     margin-bottom: 0;
 }
-.same__movie-poster-box {
+.recommended__movie-poster-box {
     width: 120px;
 }
-.same__movie-poster-box {
+.recommended__movie-poster-box {
     display: inline-block;
     vertical-align: top;
     width: 40%;
 }
-.same__movie-desc {
+.recommended__movie-desc {
     display: inline-block;
     vertical-align: top;
     padding: 10px;
     width: 60%;
 }
-.same__movie-title {
+.recommended__movie-title {
     margin-top: 0;
 }
-.same__movie-oster {
+.recommended__movie-oster {
     width: 100%;
 }
-.same__movie-box {
+.recommended__movie-box {
     margin-bottom: 10px;
 }
