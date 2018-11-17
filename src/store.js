@@ -4,12 +4,14 @@ import reducer from './reducer';
 import { loadPopularMoviesEpic } from './epics/popular';
 import { loadGenresEpic } from './epics/genres';
 import { loadMovieDetailsEpic, loadRecommendedMoviesEpic } from './epics/detailed';
+import { loadFoundMoviesEpic } from './epics/search-results';
 
 const roomEpics = combineEpics(
     loadPopularMoviesEpic,
     loadGenresEpic,
     loadMovieDetailsEpic,
-    loadRecommendedMoviesEpic
+    loadRecommendedMoviesEpic,
+    loadFoundMoviesEpic
 )
 const epicMiddleware = createEpicMiddleware();
 const enhancer = applyMiddleware(epicMiddleware);

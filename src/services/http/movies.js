@@ -26,6 +26,7 @@ export function getRecommendationMovies(params) {
 
 // ищет любые фильмы совпадающие с введенной строкой поиска
 export function searchMovies(params) {
+    console.log(params);
     let url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_KEY + '&query=' + params.query;
 
     if (params) {
@@ -33,6 +34,8 @@ export function searchMovies(params) {
             url += '&page=' + params.page;
         }
     }
+
+    console.log(url);
 
     return axios.get(
         url

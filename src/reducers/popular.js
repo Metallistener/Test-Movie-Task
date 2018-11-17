@@ -1,5 +1,4 @@
 export const load_popular_movies = (state = {}, action) => {
-  console.log(action);
   switch (action.type) {
     case 'LOAD_POPULAR_MOVIE_SUCCESS':
       return {

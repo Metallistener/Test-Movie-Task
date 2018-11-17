@@ -3,7 +3,7 @@ export const load_popular_movies = (params) => ({
   params
 });
 
-export const loading_popular_music_success = payload => ({ 
+export const loading_popular_movies_success = payload => ({ 
   type: 'LOAD_POPULAR_MOVIE_SUCCESS', 
   payload 
 });

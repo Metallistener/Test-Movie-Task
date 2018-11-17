@@ -26,14 +26,6 @@ class Detailed extends Component {
         this.getMovieId();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.recommended_movies_data !== this.props.recommended_movies_data) {
-            console.log(nextProps.recommended_movies_data);
-            console.log('alo');
-            this.renderRecommendedMovies();
-        }
-    }
-
     // получаем список всех жанров
     getGenres() {
         this.props.LoadGenres();
@@ -104,7 +96,7 @@ class Detailed extends Component {
 
     renderRecommendedMovies() {
         return (
-            this.props.recommended_movies_data.map((movie, index) => {
+            this.props.recommended_movies_data.slice(0, 4).map((movie, index) => {
                 return (
                     <div key={index} onClick={() => this.selectMovie(movie.id)} className="recommended__movie">
                         <div className="recommended__movie-poster-box">

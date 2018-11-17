@@ -5,7 +5,7 @@ import Search from '../../components/search/search';
 import { searchMovies, getGenres } from '../../services/http/movies';
 import { FontAwesome } from 'react-web-vector-icons';
 import Pagination from "react-js-pagination";
-import { set_found_movies } from '../../actions/search-results';
+import { load_found_movies } from '../../actions/search-results';
 import { load_genres } from '../../actions/genres';
 
 var connect = require("react-redux").connect;
@@ -22,15 +22,15 @@ class SearchResults extends Component {
     }
 
     componentWillMount() {
-        this.getGenres();
+        this.getQuery();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.genres_data !== this.props.genres_data) {
-            this.getQuery();
-        }
+        // if (nextProps.genres_data !== this.props.genres_data) {
+        //     this.getQuery();
+        // }
 
-        this.pageChanged(nextProps.found_movies_data.active_page);
+        // this.pageChanged(nextProps.found_movies_data.active_page);
     }
 
     // получает значение передаваемое из формы поиска фильмов
@@ -44,42 +44,18 @@ class SearchResults extends Component {
             }
 
             this.getMovies(params);
+            this.getGenres();
         });
     }
 
     // получаем список фильмов
     getMovies(params) {
-        searchMovies(params)
-        .then((response) => {
-            console.log(response);
-            this.props.found_movies(response.data);
-        })
-        .catch((error) => {
-            console.log(error.response);
-        });
+        this.props.LoadFoundMovies(params)
     }
 
     // получаем список всех жанров
     getGenres() {
-        getGenres()
-        .then((response) => {
-            this.props.genres(response.data.genres);
-        })
-        .catch((error) => {
-            console.log(error.response);
-        });
-    }
-
-    // При смене страницы делает запрос на новую страницу и перезаписывает сущ. данные на новые
-    pageChanged(newPage) {
-        if (newPage !== this.props.found_movies_data.active_page) {
-            const params = {
-                page: newPage,
-                query: this.state.query
-            };    
-
-            this.getMovies(params);
-        }
+        this.props.LoadGenres();
     }
 
     // возвращает жанр в строковом виде
@@ -119,8 +95,11 @@ class SearchResults extends Component {
     // слушает изменение номера страницы пагинации
     handlePageChange(pageNumber) {
         window.scrollTo(0,0);
-        
-        this.props.found_movies({page: pageNumber});
+        const params = {
+            page: pageNumber,
+            query: this.state.query
+        }
+        this.props.LoadFoundMovies(params);
     }
 
     render() {
@@ -196,15 +175,15 @@ class SearchResults extends Component {
 
 function mapStateToProps(state) {
     return {
-        found_movies_data: state.found_movies,
-        genres_data: state.genres
+        found_movies_data: state.load_found_movies,
+        genres_data: state.load_genres
     };
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        found_movies: data => dispatch(set_found_movies(data)),
-        genres: data => dispatch(load_genres(data))
+        LoadFoundMovies: (params) => dispatch(load_found_movies(params)),
+        LoadGenres: () => dispatch(load_genres())
     }
 }
 

@@ -1,10 +1,10 @@
-export const found_movies = (state = {}, action) => {
+export const load_found_movies = (state = {}, action) => {
   switch (action.type) {
-    case 'SET_FOUND_MOVIES':
+    case 'LOAD_FOUND_MOVIES_SUCCESS':
       return {
-        active_page: action.data.page ? action.data.page : state.active_page,
-        data: action.data.results ? action.data.results : state.data,
-        totalResults: action.data.total_results ? action.data.total_results : state.totalResults 
+        active_page: action.payload.page ? action.payload.page : state.active_page,
+        data: action.payload.results ? action.payload.results : state.data,
+        totalResults: action.payload.total_results ? action.payload.total_results : state.totalResults 
       }
     default:
       return state
