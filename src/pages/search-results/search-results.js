@@ -19,18 +19,13 @@ class SearchResults extends Component {
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.searchChange = this.searchChange.bind(this);
+        this.setGenre = this.setGenre.bind(this);
+        this.renderMovies = this.renderMovies.bind(this);
     }
 
     componentWillMount() {
         this.getQuery();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        // if (nextProps.genres_data !== this.props.genres_data) {
-        //     this.getQuery();
-        // }
-
-        // this.pageChanged(nextProps.found_movies_data.active_page);
     }
 
     // получает значение передаваемое из формы поиска фильмов
@@ -102,6 +97,39 @@ class SearchResults extends Component {
         this.props.LoadFoundMovies(params);
     }
 
+    renderMovies() {
+        return (
+            Object.keys(this.props.found_movies_data).length > 0 ? 
+            this.props.found_movies_data.data.map((movie, index) => {
+                return (
+                    <div key={index} className="results__movie movie">
+                        <a className="movie__link" onClick={() => this.props.history.push({
+                            pathname: '/detailed/' + movie.id
+                        })}>
+                            <div className="movie__poster-box">
+                                <img className="movie__poster" src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} />
+                            </div>
+                            <h4 className="movie__title">{movie.title}</h4>
+                            <div className="movie__genres-box">
+                                <strong className="movie__genre-title">Жанр:</strong> 
+                                {
+                                    this.setGenre(movie.genre_ids).map((genre, index) => {
+                                        return (
+                                            <span key={index} className="movie__genre-name">{genre},</span>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </a>
+                    </div>
+                )
+            }) : <div className="results__empty">
+                    <img src={require('../../assets/images/search.png')} />
+                    <h3>Ничего не найдено</h3>
+                </div>
+        )
+    }
+
     render() {
         return (
             <div className="results">
@@ -123,34 +151,7 @@ class SearchResults extends Component {
                             Результаты поиска
                         </h1>
                         {   
-                            Object.keys(this.props.found_movies_data).length > 0 ? 
-                                this.props.found_movies_data.data.map((movie, index) => {
-                                    return (
-                                        <div key={index} className="results__movie movie">
-                                            <a className="movie__link" onClick={() => this.props.history.push({
-                                                pathname: '/detailed/' + movie.id
-                                            })}>
-                                                <div className="movie__poster-box">
-                                                    <img className="movie__poster" src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} />
-                                                </div>
-                                                <h4 className="movie__title">{movie.title}</h4>
-                                                <div className="movie__genres-box">
-                                                    <strong className="movie__genre-title">Жанр:</strong> 
-                                                    {
-                                                        this.setGenre(movie.genre_ids).map((genre, index) => {
-                                                            return (
-                                                                <span key={index} className="movie__genre-name">{genre},</span>
-                                                            )
-                                                        })
-                                                    }
-                                                </div>
-                                            </a>
-                                        </div>
-                                    )
-                                }) : <div className="results__empty">
-                                        <img src={require('../../assets/images/search.png')} />
-                                        <h3>Ничего не найдено</h3>
-                                    </div>
+                            this.renderMovies()
                         }
                         <div className="results__pagination-box">
                             {
